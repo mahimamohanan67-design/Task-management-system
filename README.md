@@ -91,3 +91,9 @@ npm run build
 ```
 
 Backend integration tests require PostgreSQL configured through the environment variables above. The frontend build does not require a running API.
+
+## GitHub Pages
+
+The frontend demo is published automatically from the `main` branch by the GitHub Actions workflow in `.github/workflows/pages.yml`. After pushing this workflow to GitHub, open **Settings → Pages** in the repository and set the build source to **GitHub Actions**. The deployment URL is `https://mahimamohanan67-design.github.io/Task-management-system/`.
+
+GitHub Pages hosts the static frontend only. The demo works in the browser and saves demo tasks in local storage; registration, sign-in, and synced accounts require the separately hosted backend. Set `VITE_API_URL` to that backend's `/api` URL when building if you deploy the backend elsewhere.
