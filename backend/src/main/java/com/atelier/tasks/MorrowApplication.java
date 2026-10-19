@@ -1,0 +1,3 @@
+package com.atelier.tasks;
+import org.springframework.boot.SpringApplication;import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication public class MorrowApplication { public static void main(String[] args){SpringApplication.run(MorrowApplication.class,args);} }

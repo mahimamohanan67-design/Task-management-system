@@ -1,0 +1,119 @@
+@baseUrl = http://localhost:8080/api
+@token = paste-jwt-here
+@taskId = 1
+@categoryId = 1
+@notificationId = 1
+
+### Register (returns JWT and starter categories are created)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Mahima",
+  "email": "mahima@example.com",
+  "password": "a-long-development-password"
+}
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "mahima@example.com",
+  "password": "a-long-development-password"
+}
+
+### Current user
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### Create task
+POST {{baseUrl}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Plan the spring launch",
+  "description": "Draft the story and share a first pass with the team.",
+  "category": "Work",
+  "priority": "HIGH",
+  "status": "TODO",
+  "startDate": "2026-10-18",
+  "dueDate": "2026-10-24",
+  "timeOfDay": "Morning",
+  "tags": ["Planning", "Writing"]
+}
+
+### List and filter tasks (response is paginated)
+GET {{baseUrl}}/tasks?search=launch&status=TODO&priority=HIGH&page=0&size=20&sort=dueDate&direction=asc
+Authorization: Bearer {{token}}
+
+### Read, update, complete, and delete a task
+GET {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+
+PUT {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Plan the spring launch",
+  "description": "First draft is ready for review.",
+  "category": "Work",
+  "priority": "MEDIUM",
+  "status": "IN_PROGRESS",
+  "dueDate": "2026-10-25",
+  "timeOfDay": "Afternoon",
+  "tags": ["Planning"]
+}
+
+PATCH {{baseUrl}}/tasks/{{taskId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "status": "COMPLETED" }
+
+DELETE {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+
+### Categories
+GET {{baseUrl}}/categories
+Authorization: Bearer {{token}}
+
+POST {{baseUrl}}/categories
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "name": "Community", "description": "People and projects", "color": "#dce8df", "icon": "Flower2" }
+
+PUT {{baseUrl}}/categories/{{categoryId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "name": "Community", "description": "People, events, and projects", "color": "#dce8df", "icon": "Flower2" }
+
+DELETE {{baseUrl}}/categories/{{categoryId}}
+Authorization: Bearer {{token}}
+
+### Dashboard (pass the browser's IANA timezone)
+GET {{baseUrl}}/dashboard/stats?timezone=Asia%2FKolkata
+Authorization: Bearer {{token}}
+
+GET {{baseUrl}}/dashboard/today?timezone=Asia%2FKolkata
+Authorization: Bearer {{token}}
+
+GET {{baseUrl}}/dashboard/upcoming?timezone=Asia%2FKolkata&days=14
+Authorization: Bearer {{token}}
+
+GET {{baseUrl}}/dashboard/recent-activity
+Authorization: Bearer {{token}}
+
+### Notifications
+GET {{baseUrl}}/notifications
+Authorization: Bearer {{token}}
+
+PATCH {{baseUrl}}/notifications/{{notificationId}}/read
+Authorization: Bearer {{token}}
+
+PATCH {{baseUrl}}/notifications/read-all
+Authorization: Bearer {{token}}

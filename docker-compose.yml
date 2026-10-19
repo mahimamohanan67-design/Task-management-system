@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: morrow-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: morrow_db
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres}
+      TZ: UTC
+    ports:
+      - "5432:5432"
+    volumes:
+      - morrow-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-postgres} -d morrow_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  morrow-postgres-data:
