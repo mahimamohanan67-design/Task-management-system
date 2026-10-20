@@ -3,8 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  // This repository is published at /Task-management-system/ on GitHub Pages.
-  // Keep the root path for local development.
-  base: process.env.NODE_ENV === 'production' ? '/Task-management-system/' : '/',
+  // GitHub Pages serves this repository from a subpath; other hosts use the domain root.
+  base: process.env.GITHUB_ACTIONS === 'true' ? '/Task-management-system/' : '/',
   plugins: [react()],
 });
